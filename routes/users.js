@@ -19,7 +19,7 @@ router.post('/', utils.requireJson, function(req, res, next) {
 
     res
       .status(201)
-      .set('Location', `${config.baseUrl}/api/user/${savedUser._id}`)
+      .set('Location', `${config.baseUrl}/user/${savedUser._id}`)
       .send(savedUser);
   });
 });
