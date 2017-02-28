@@ -4,7 +4,7 @@
 **/
 
 const config = require('../config');
-//const formatLinkHeader = require('format-link-header');
+const formatLinkHeader = require('format-link-header');
 
 /**
  * Responds with 415 Unsupported Media Type if the request does not have the Content-Type application/json.
@@ -64,11 +64,9 @@ exports.paginate = function(resourceHref, query, total, req, res) {
 
   // If there are any links (i.e. if there is more than one page),
   // add the Link header to the response
-  /*
   if (Object.keys(links).length >= 1) {
     res.set('Link', formatLinkHeader(links));
   }
-  */
 
   return query;
 };
