@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 /**
  * Define the schema for users
- * A user with a name, a firstname and optional .
+ * A user with a name, a firstname a role and a creation date.
  */
 const userSchema = new Schema({
   firstName: {
