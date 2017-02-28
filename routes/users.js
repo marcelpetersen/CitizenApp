@@ -1,19 +1,26 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const config = require('../config');
 const User = require('../models/user');
 const utils = require('./utils');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 /* POST new user */
 router.post('/', utils.requireJson, function(req, res, next) {
   // Create a new document from the JSON in the request body
   const newUser = new User(req.body);
+
   // Save that document
   newUser.save(function(err, savedUser) {
     if (err) {
       return next(err);
     }
-    // Send the saved document in the response
-    res.send(savedUser);
+
+    res
+      .status(201)
+      .set('Location', `${config.baseUrl}/api/user/${savedUser._id}`)
+      .send(savedUser);
   });
 });
 
@@ -51,7 +58,6 @@ router.patch('/:id', utils.requireJson, loadUserFromParamsMiddleware, function(r
       return next(err);
     }
 
-    debug(`Updated user "${savedUser.firstName}" "${savedUser.lastName}"`);
     res.send(savedUser);
   });
 });
