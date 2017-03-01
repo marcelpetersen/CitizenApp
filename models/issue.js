@@ -35,11 +35,11 @@ const issueSchema = new Schema ({
 	    ref: 'User',
 	    default: null
 	},
-	createDate: {
+	createdAt: {
 		type: Date,
     	default: Date.now
 	},
-	updateDate: {
+	updatedAt: {
 		type: Date
 	}
 });
