@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const Schema = mongoose.Schema;
 
-/* 
+/*
 	Un problème dans la ville
 */
 const issueSchema = new Schema ({
@@ -10,7 +10,7 @@ const issueSchema = new Schema ({
 		type: String,
 		required: true,
 		enum: ['New','inProgress','completed','canceled']
-		validate: : {
+		validate: {
 			validator: validateStatus
 		}
 	},
@@ -105,7 +105,7 @@ function getUserHref() {
  */
 function setUserHref(value) {
 
-  // Store the original hyperlink 
+  // Store the original hyperlink
   this._userHref = value;
 
   // Remove "/api/user/" from the beginning of the value

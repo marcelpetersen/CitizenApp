@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Issue = require('../models/issue');
 
 /* GET issues listing. */
 router.get('/', function(req, res, next) {
-  User.find().sort('name').exec(function(err, issues) {
+  User.find().sort('firstName').exec(function(err, issues) {
     if (err) {
       return next(err);
     }
