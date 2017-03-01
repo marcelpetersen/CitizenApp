@@ -13,7 +13,7 @@ mongoose.connect(config.databaseUrl);
 
 const index = require('./routes/index');
 const usersApi = require('./routes/users');
-//const issuesApi = require('./routes/issues');
+const issuesApi = require('./routes/issues');
 
 const app = express();
 
