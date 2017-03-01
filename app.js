@@ -12,8 +12,9 @@ mongoose.Promise = Promise;
 mongoose.connect(config.databaseUrl);
 
 const index = require('./routes/index');
-const users = require('./routes/users');
-//const issues = require('.routes/issues');
+const usersApi = require('./routes/users');
+//const issuesApi = require('./routes/issues');
+
 
 const app = express();
 
@@ -29,9 +30,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// REST API routes
 app.use('/', index);
-app.use('/users', users);
-//app.use('/issues', issues);
+app.use('/users', usersApi);
+//app.use('/issues', issuesApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
