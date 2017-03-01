@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
 
 /* GET issues listing */
 router.get('/', function(req, res, next) {
-  Issue.find().sort('name').exec(function(err, issues) {
+  Issue.find().sort('createdAt').exec(function(err, issues) {
     if (err) {
       return next(err);
     }
@@ -38,7 +38,13 @@ router.get('/', function(req, res, next) {
 
 /* GET issues listing from a specific user */
 router.get('/', function(req, res, next) {
-  Issue.find().sort('name').exec(function(err, issues) {
+  let query = Issue.find();
+  // Filter by user
+  if (ObjectId.isValid(req.query.user)) {
+    query = query.where('user').equals(req.query.user);
+  }
+  // Execute the query
+  query.exec(function(err, issues) {
     if (err) {
       return next(err);
     }
