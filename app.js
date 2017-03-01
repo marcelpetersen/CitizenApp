@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // REST API routes
 app.use('/', index);
 app.use('/users', usersApi);
-//app.use('/issues', issuesApi);
+app.use('/issues', issuesApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
