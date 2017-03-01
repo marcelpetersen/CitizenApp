@@ -9,10 +9,14 @@ const issueSchema = new Schema ({
 	status: {
 		type: String,
 		required: true,
+<<<<<<< HEAD
 		enum: ['New','inProgress','completed','canceled']
 		validate: {
 			validator: validateStatus
 		}
+=======
+		enum: ['new','inProgress','completed','canceled']
+>>>>>>> c9a79c85fc9bbd6c99d17dcf687f3bf8e7a65114
 	},
 	description: {
 		type: String,
@@ -36,22 +40,18 @@ const issueSchema = new Schema ({
 	user: {
 		type: Schema.Types.ObjectId,
 	    ref: 'User',
-	    default: null,
-	    validate: {
-	      // Validate that the user is a valid ObjectId
-	      // and references an existing user
-	      validator: validateUser
-	    }
+	    default: null
 	},
-	createDate: {
+	createdAt: {
 		type: Date,
     	default: Date.now
 	},
-	updateDate: {
+	updatedAt: {
 		type: Date
 	}
 });
 
+<<<<<<< HEAD
 /**
  * Add a virtual "userHref" property:
  *
@@ -145,5 +145,7 @@ function transformJsonIssue(doc, json, options) {
 function validateStatus(value, callback){
 
 }
+=======
+>>>>>>> c9a79c85fc9bbd6c99d17dcf687f3bf8e7a65114
 
 module.exports = mongoose.model('Issue', issueSchema);

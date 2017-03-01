@@ -4,7 +4,7 @@ const Issue = require('../models/issue');
 
 /* GET issues listing. */
 router.get('/', function(req, res, next) {
-  User.find().sort('firstName').exec(function(err, issues) {
+  Issue.find().sort('name').exec(function(err, issues) {
     if (err) {
       return next(err);
     }
@@ -25,5 +25,53 @@ router.post('/', function(req, res, next) {
     res.send(savedIssue);
   });
 });
+
+/* GET issues listing */
+router.get('/', function(req, res, next) {
+  Issue.find().sort('name').exec(function(err, issues) {
+    if (err) {
+      return next(err);
+    }
+    res.send(issues);
+  });
+});
+
+/* GET issues listing from a specific user */
+router.get('/', function(req, res, next) {
+  Issue.find().sort('name').exec(function(err, issues) {
+    if (err) {
+      return next(err);
+    }
+    res.send(issues);
+  });
+});
+
+/* GET a specific issue */
+router.get('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
+  res.send(req.issue);
+});
+
+/**
+ * Middleware that loads the user corresponding to the ID in the URL path.
+ * Responds with 404 Not Found if the ID is not valid or the user doesn't exist.
+ */
+function loadIssueFromParamsMiddleware(req, res, next) {
+
+  const issueId = req.params.id;
+  if (!ObjectId.isValid(issueId)) {
+    return issueNotFound(res, issueId);
+  }
+
+  User.findById(req.params.id, function(err, issue) {
+    if (err) {
+      return next(err);
+    } else if (!user) {
+      return issueNotFound(res, issueId);
+    }
+
+    req.issue = issue;
+    next();
+  });
+}
 
 module.exports = router;
