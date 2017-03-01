@@ -1,16 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Issue = require('../models/issue');
-
-/* GET issues listing. */
-router.get('/', function(req, res, next) {
-  Issue.find().sort('name').exec(function(err, issues) {
-    if (err) {
-      return next(err);
-    }
-    res.send(issues);
-  });
-});
+const User = require('../models/user');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 /* POST new issue */
 router.post('/', function(req, res, next) {
@@ -71,7 +64,9 @@ function loadIssueFromParamsMiddleware(req, res, next) {
   User.findById(req.params.id, function(err, issue) {
     if (err) {
       return next(err);
-    } else if (!user) {
+    }
+    /** USER fonctionne pas, merci de corriger :) **/
+    else if (!user) {
       return issueNotFound(res, issueId);
     }
 
