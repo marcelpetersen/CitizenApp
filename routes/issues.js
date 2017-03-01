@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Issue = require('../models/issue');
 const User = require('../models/user');
+const utils = require('./utils');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
 /* POST new issue */
-router.post('/', function(req, res, next) {
+router.post('/', utils.requireJson, function(req, res, next) {
   // Create a new document from the JSON in the request body
   const newIssue = new Issue(req.body);
   // Save that document
@@ -19,19 +20,9 @@ router.post('/', function(req, res, next) {
   });
 });
 
-/* GET issues listing */
-router.get('/', function(req, res, next) {
-  Issue.find().sort('createdAt').exec(function(err, issues) {
-    if (err) {
-      return next(err);
-    }
-    res.send(issues);
-  });
-});
-
 /* GET issues listing from a specific user */
 router.get('/', function(req, res, next) {
-  let query = Issue.find();
+  let query = Issue.find().sort('createdAt');
   // Filter by user
   if (ObjectId.isValid(req.query.user)) {
     query = query.where('user').equals(req.query.user);
@@ -50,9 +41,21 @@ router.get('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
   res.send(req.issue);
 });
 
+/* DELETE a specific issue */
+router.delete('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
+  req.issue.remove(function(err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.sendStatus(204);
+  });
+});
+
+
 /**
- * Middleware that loads the user corresponding to the ID in the URL path.
- * Responds with 404 Not Found if the ID is not valid or the user doesn't exist.
+ * Middleware that loads the issue corresponding to the ID in the URL path.
+ * Responds with 404 Not Found if the ID is not valid or the issue doesn't exist.
  */
 function loadIssueFromParamsMiddleware(req, res, next) {
 
@@ -61,12 +64,11 @@ function loadIssueFromParamsMiddleware(req, res, next) {
     return issueNotFound(res, issueId);
   }
 
-  User.findById(req.params.id, function(err, issue) {
+  Issue.findById(req.params.id, function(err, issue) {
     if (err) {
       return next(err);
     }
-    /** USER fonctionne pas, merci de corriger :) **/
-    else if (!user) {
+    else if (!issue) {
       return issueNotFound(res, issueId);
     }
 
@@ -74,5 +76,15 @@ function loadIssueFromParamsMiddleware(req, res, next) {
     next();
   });
 }
+
+/**
+ * Responds with 404 Not Found and a message indicating that the issue with the specified ID was not found.
+ */
+function issueNotFound(res, issueId) {
+  return res.status(404).type('text').send(`No issue found with ID ${issueId}`);
+}
+
+
+
 
 module.exports = router;

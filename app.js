@@ -10,6 +10,7 @@ const config = require('./config');
 // Connect to the database
 mongoose.Promise = Promise;
 mongoose.connect(config.databaseUrl);
+mongoose.set('debug', true);
 
 const index = require('./routes/index');
 const usersApi = require('./routes/users');
