@@ -15,7 +15,6 @@ const index = require('./routes/index');
 const usersApi = require('./routes/users');
 const issuesApi = require('./routes/issues');
 
-
 const app = express();
 
 // view engine setup
