@@ -33,7 +33,8 @@ const issueSchema = new Schema ({
 	user: {
 		type: Schema.Types.ObjectId,
 	    ref: 'User',
-	    default: null
+	    default: null,
+	    required: true
 	},
 	createdAt: {
 		type: Date,
