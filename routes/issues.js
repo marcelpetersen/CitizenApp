@@ -41,6 +41,50 @@ router.get('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
   res.send(req.issue);
 });
 
+/* PATCH modification d'une issue */
+router.patch('/:id', utils.requireJson, loadIssueFromParamsMiddleware, function(req, res, next) {
+  if (req.body.status !== undefined){
+    if (req.issue.status == 'new' & req.body.status == 'inProgress'){
+      req.issue.status = req.body.status;
+    }
+    if (req.issue.status == 'new' & req.body.status == 'canceled'){
+      req.issue.status = req.body.status;
+    }
+    if (req.issue.status == 'inProgress' & req.body.status == 'completed'){
+      req.issue.status = req.body.status;
+    }
+  }
+  if (req.body.description !== undefined){
+    req.issue.description = req.body.description;
+  }
+  if (req.body.imageUrl !== undefined){
+    req.issue.imageUrl = req.body.imageUrl;
+  }
+  if (req.body.latitude !== undefined){
+    req.issue.latitude = req.body.latitude;
+  }
+  if (req.body.longitude !== undefined){
+    req.issue.longitude = req.body.longitude;
+  }
+  if (req.body.tags !== undefined){
+    req.issue.tags = req.body.tags;
+  }
+  if (req.body.user !== undefined){
+    req.issue.user = req.body.user;
+  }
+
+  req.issue.updateAt = Date.now();
+
+  req.issue.save(function(err, savedIssue){
+    if(err){
+      return next(err);
+    }
+
+    debug('Update issue "${savedIssue}"');
+    res.send(savedIssue);
+  });
+});
+
 /* DELETE a specific issue */
 router.delete('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
   req.issue.remove(function(err) {
