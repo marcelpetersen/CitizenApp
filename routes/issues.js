@@ -61,7 +61,90 @@ router.post('/', utils.requireJson, function(req, res, next) {
   });
 });
 
-/* GET issues listing from a specific user */
+
+/**
+* @api {get} /issues List issues
+* @apiName RetrieveIssues
+* @apiGroup Issue
+* @apiVersion 1.0.0
+* @apiDescription Retrieves a list of issues
+*
+* @apiUse IssueInResponseBody
+*
+* @apiExample Example
+*     GET /issues HTTP/1.1
+*
+* @apiSuccessExample 200 OK
+*     HTTP/1.1 200 OK
+*     Content-Type: application/json
+*
+* [
+*  {
+*    "_id": "58b6cd77e2a1de16edbc5a44",
+*    "description": "Graphiti sur le mur de l'église",
+*    "latitude": 2,
+*    "longitude": 42,
+*    "__v": 0,
+*    "createdAt": "2017-03-01T13:32:39.570Z",
+*    "user": "58b6cb11e2a1de16edbc5a41",
+*    "tags": [
+*      "église",
+*      "graphiti"
+*    ],
+*    "status": "new"
+*  },
+*  {
+*    "_id": "58b6d82009bf0f18065d210f",
+*    "description": "cailloux sur la route de la gare",
+*    "latitude": 23,
+*    "longitude": 285,
+*    "__v": 0,
+*    "createdAt": "2017-03-01T14:18:08.096Z",
+*    "user": "58b6cb1ce2a1de16edbc5a41",
+*    "tags": [
+*      "cailloux",
+*      "route",
+*      "gare"
+*    ],
+*    "status": "new"
+*  }
+*]
+*/
+/**
+*@api {get} /issues List issues filtered
+* @apiName RetrieveIssuesFromSpecificUser
+* @apiGroup Issue
+* @apiVersion 1.0.0
+* @apiDescription Retrieves a list of issues from a specific user
+* @apiUse UserIdInUrlPath
+* @apiUse IssueInResponseBody
+* @apiUse IssueNotFoundError
+*
+@apiExample Example
+*     GET /issues?user=58b6cb1ce2a1de16edbc5a41 HTTP/1.1
+*
+* @apiSuccessExample 200 OK
+*     HTTP/1.1 200 OK
+*     Content-Type: application/json
+*
+* [
+*  {
+*    "_id": "58b6d82009bf0f18065d210f",
+*    "description": "cailloux sur la route de la gare",
+*    "latitude": 23,
+*    "longitude": 285,
+*    "__v": 0,
+*    "createdAt": "2017-03-01T14:18:08.096Z",
+*    "user": "58b6cb1ce2a1de16edbc5a41",
+*    "tags": [
+*      "cailloux",
+*      "route",
+*      "gare"
+*    ],
+*    "status": "new"
+*  }
+*]
+*/
 router.get('/', function(req, res, next) {
   let query = Issue.find().sort('createdAt');
   // Filter by user
@@ -189,6 +272,40 @@ function issueNotFound(res, issueId) {
 * @apiSuccess (Response body) {String} createdAt The date at which the issue was created
 * @apiSuccess (Response body) {String} id The unique identifier of the issue
 */
+
+/**
+* @apiDefine IssueIdInUrlPath
+* @apiParam (URL path parameters) {String} id The unique identifier of the issue to retrieve
+*/
+
+/**
+ * @apiDefine IssueNotFoundError
+ *
+ * @apiError {Object} 404/NotFound No issue was found corresponding to the ID in the URL path
+ *
+ * @apiErrorExample {json} 404 Not Found
+ *     HTTP/1.1 404 Not Found
+ *     Content-Type: text/plain
+ *
+ *     No issue with ID 58b6d82009bf0f18065d210f
+ */
+
+ /**
+* @apiDefine UserIdInUrlPath
+* @apiParam (URL path parameters) {String} id The unique identifier of the user to retrieve a filtered list by the user ID
+*/
+
+/**
+ * @apiDefine UserNotFoundError
+ *
+ * @apiError {Object} 404/NotFound No user was found corresponding to the ID in the URL path
+ *
+ * @apiErrorExample {json} 404 Not Found
+ *     HTTP/1.1 404 Not Found
+ *     Content-Type: text/plain
+ *
+ *     No user with ID 58b6cb1ce2a1de16edbc5a41
+ */
 
 /**
   * @apiDefine IssueValidationError
