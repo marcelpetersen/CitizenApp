@@ -110,11 +110,8 @@ router.patch('/:id', utils.requireJson, loadIssueFromParamsMiddleware, function(
   if (req.body.tags !== undefined){
     req.issue.tags = req.body.tags;
   }
-  if (req.body.user !== undefined){
-    req.issue.user = req.body.user;
-  }
 
-  req.issue.updateAt = Date.now();
+  req.issue.updatedAt = Date.now();
 
   req.issue.save(function(err, savedIssue){
     if(err){
