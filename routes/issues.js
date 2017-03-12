@@ -160,7 +160,41 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* GET a specific issue */
+
+/**
+ * @api {get} /issue/:id Retrieve an issue
+ * @apiName RetrieveIssue
+ * @apiGroup Issue
+ * @apiVersion 1.0.0
+ * @apiDescription Retrieves one issue.
+ *
+ * @apiUse IssueIdInUrlPath
+ * @apiUse IssueInResponseBody
+ * @apiUse IssueNotFoundError
+ *
+ * @apiExample Example
+ *     GET /Issue/58b6d82009bf0f18065d210f HTTP/1.1
+ *
+ * @apiSuccessExample 200 OK
+ *     HTTP/1.1 200 OK
+ *     Content-Type: application/json
+ *
+ *  {
+ *    "_id": "58b6d82009bf0f18065d210f",
+ *    "description": "cailloux sur la route de la gare",
+ *    "latitude": 23,
+ *    "longitude": 285,
+ *    "__v": 0,
+ *    "createdAt": "2017-03-01T14:18:08.096Z",
+ *    "user": "58b6cb1ce2a1de16edbc5a41",
+ *    "tags": [
+ *      "cailloux",
+ *      "route",
+ *      "gare"
+ *    ],
+ *    "status": "new"
+ *  }
+ */
 router.get('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
   res.send(req.issue);
 });
@@ -206,7 +240,22 @@ router.patch('/:id', utils.requireJson, loadIssueFromParamsMiddleware, function(
   });
 });
 
-/* DELETE a specific issue */
+/**
+ * @api {delete} /api/issues/:id Delete an issue
+ * @apiName DeleteIssue
+ * @apiGroup Issue
+ * @apiVersion 1.0.0
+ * @apiDescription Permanently deletes an issue.
+ *
+ * @apiUse IssueIdInUrlPath
+ * @apiUse IssueNotFoundError
+ *
+ * @apiExample Example
+ *     DELETE /api/issues/58b6d82009bf0f18065d210f HTTP/1.1
+ *
+ * @apiSuccessExample 204 No Content
+ *     HTTP/1.1 204 No Content
+ */
 router.delete('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
   req.issue.remove(function(err) {
     if (err) {
