@@ -225,6 +225,22 @@ router.get('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
  *
+ *   {
+ *    "updatedAt": "2017-03-12T19:53:32.991Z",
+ *    "_id": "58b6bc347db8a120b0f1d666",
+ *    "description": "This is a modification",
+ *    "longitude": 9,
+ *    "__v": 0,
+ *    "createdAt": "2017-03-01T15:38:09.800Z",
+ *    "user": "58b588145f392e0d34e16b44",
+ *    "tags": [
+ *      "test",
+ *      "oui",
+ *      "non"
+ *    ],
+ *    "status": "new"
+ *  }
+ *
  */
 router.patch('/:id', utils.requireJson, loadIssueFromParamsMiddleware, function(req, res, next) {
   if (req.body.status !== undefined){
@@ -261,7 +277,6 @@ router.patch('/:id', utils.requireJson, loadIssueFromParamsMiddleware, function(
       return next(err);
     }
 
-    debug('Update issue "${savedIssue}"');
     res.send(savedIssue);
   });
 });
