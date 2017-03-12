@@ -199,7 +199,33 @@ router.get('/:id', loadIssueFromParamsMiddleware, function(req, res, next) {
   res.send(req.issue);
 });
 
-/* PATCH modification d'une issue */
+/**
+ * @api {patch} /issues/:id Partially update an issue
+ * @apiName PartiallyUpdateIssue
+ * @apiGroup Issue
+ * @apiVersion 1.0.0
+ * @apiDescription Partially updates an issue's data (only the properties found in the request body will be updated).
+ * All properties are optional.
+ *
+ * @apiUse IssueIdInUrlPath
+ * @apiUse IssueInRequestBody
+ * @apiUse IssueInResponseBody
+ * @apiUse IssueNotFoundError
+ * @apiUse IssueValidationError
+ *
+ * @apiExample Example
+ *     PATCH /issues/58b6bc347db8a120b0f1d666 HTTP/1.1
+ *     Content-Type: application/json
+ *
+ *     {
+ *       "description": "This is a modification"
+ *     }
+ *
+ * @apiSuccessExample 200 OK
+ *     HTTP/1.1 200 OK
+ *     Content-Type: application/json
+ *
+ */
 router.patch('/:id', utils.requireJson, loadIssueFromParamsMiddleware, function(req, res, next) {
   if (req.body.status !== undefined){
     if (req.issue.status == 'new' & req.body.status == 'inProgress'){
