@@ -446,7 +446,7 @@
   },
   {
     "type": "get",
-    "url": "/issue/:id",
+    "url": "/issues/:id",
     "title": "Retrieve an issue",
     "name": "RetrieveIssue",
     "group": "Issue",
@@ -455,7 +455,7 @@
     "examples": [
       {
         "title": "Example",
-        "content": "GET /Issue/58b6d82009bf0f18065d210f HTTP/1.1",
+        "content": "GET /issues/58b6d82009bf0f18065d210f HTTP/1.1",
         "type": "json"
       }
     ],
