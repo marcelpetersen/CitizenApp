@@ -162,7 +162,7 @@ router.get('/', function(req, res, next) {
 
 
 /**
- * @api {get} /issue/:id Retrieve an issue
+ * @api {get} /issues/:id Retrieve an issue
  * @apiName RetrieveIssue
  * @apiGroup Issue
  * @apiVersion 1.0.0
@@ -173,7 +173,7 @@ router.get('/', function(req, res, next) {
  * @apiUse IssueNotFoundError
  *
  * @apiExample Example
- *     GET /Issue/58b6d82009bf0f18065d210f HTTP/1.1
+ *     GET /issues/58b6d82009bf0f18065d210f HTTP/1.1
  *
  * @apiSuccessExample 200 OK
  *     HTTP/1.1 200 OK
